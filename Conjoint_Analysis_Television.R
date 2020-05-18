@@ -86,48 +86,42 @@ conjoint = function(pref,design_matrix){
   max_profit_optimal_price = as.numeric(best_design$my_design_profit_per_unit)
   
   
-  partworth_estimates$pw_out <- paste(partworth_estimates$attribute_levels,round(partworth_estimates$pw_est,2),sep = ' = ') ###Storing partworth estimates with descriptions
-  partworth_estimates$wtp_out <- paste(partworth_estimates$attribute_levels,round(partworth_estimates$wtp,2),sep = ' = ')   ###Storing willingness to pay with descriptions
+  partworth_estimates$pw_out <- paste(partworth_estimates$attribute_levels,round(partworth_estimates$pw_est,2),sep = ' = ')
+  partworth_estimates$wtp_out <- paste(partworth_estimates$attribute_levels,round(partworth_estimates$wtp,2),sep = ' = ')
   
-  partworth_estimates_answer <- c(partworth_estimates$pw_out)   ###Storing partworth estimates as vector
-  intercept <- paste("intercept = ",round(lm_out$coefficients[1],2),sep = '')       ###Getting intercept partworth estimates
+  partworth_estimates_answer <- c(partworth_estimates$pw_out) 
+  intercept <- paste("intercept = ",round(lm_out$coefficients[1],2),sep = '') 
   
-  partworth_estimates_answer <- paste(intercept,partworth_estimates_answer[1],partworth_estimates_answer[2],    ###Getting all partworth estimates in one vector
+  partworth_estimates_answer <- paste(intercept,partworth_estimates_answer[1],partworth_estimates_answer[2], 
                                       partworth_estimates_answer[3],partworth_estimates_answer[4]
                                       ,partworth_estimates_answer[5],sep = ', ')
   
-  attribute_df$ai_out <- paste(attribute_df$attribute,round(attribute_df$importance,2),sep = ' = ') ###Storing attribute importance with descriptions
+  attribute_df$ai_out <- paste(attribute_df$attribute,round(attribute_df$importance,2),sep = ' = ') 
   
-  attribute_importance_answer <- c(attribute_df$ai_out) ###Storing attribute importance as vector
+  attribute_importance_answer <- c(attribute_df$ai_out)
   
-  attribute_importance_answer <- paste(attribute_importance_answer[1],attribute_importance_answer[2], ###Getting all attribute importance in one vector
+  attribute_importance_answer <- paste(attribute_importance_answer[1],attribute_importance_answer[2], 
                                        attribute_importance_answer[3],attribute_importance_answer[4]
                                        ,sep = ', ')
   
-  willingness_to_pay_answer <- c(partworth_estimates$wtp_out)   ###Storing willingness to pay as vector
+  willingness_to_pay_answer <- c(partworth_estimates$wtp_out)  
   
-  willingness_to_pay_answer <- paste(willingness_to_pay_answer[1],willingness_to_pay_answer[2],       ###Getting all willingness to pay in one vector
+  willingness_to_pay_answer <- paste(willingness_to_pay_answer[1],willingness_to_pay_answer[2],      
                                      willingness_to_pay_answer[3],willingness_to_pay_answer[4]
-                                     ,willingness_to_pay_answer[5],sep = ', ')
-  
-  #final_output <- data.frame("Outputs" = c("Partworth Estimates","Attribute Importance", "Willingness To Pay", "Optimal Price","Market Share At Optimal Price","Maximum Profit At Optimal Price"),   ###Getting final output dataframe ready
-                            # "Elements" = c(partworth_estimates_answer,attribute_importance_answer,willingness_to_pay_answer,optimal_price,market_share_optimal_price,max_profit_optimal_price))
-  #return(View(final_output))
-  
+                                     ,willingness_to_pay_answer[5],sep = ', ')  
   final_output_list <- list(c(partworth_estimates_answer),c(attribute_importance_answer),c(willingness_to_pay_answer),c(optimal_price),c(market_share_optimal_price),c(max_profit_optimal_price))      ###Getting final output list ready
   names(final_output_list) <- c("Partworth Estimates","Attribute Importance(%)", "Willingness To Pay($)", "Optimal Price($)","Market Share At Optimal Price(%)","Maximum Profit At Optimal Price($)")
   return(final_output_list)
 }
 
-dm <- data.frame("screen_52_inch" = c(1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0),   ###Initializing design matrix dataframe
+dm <- data.frame("screen_52_inch" = c(1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0),   
                  "screen_65_inch" = c(0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0),
                  "3D_flag" = c(0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1),
                  "Sony_flag" = c(1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0),
                  "Price_high_flag" = c(0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1))
 
-dm <- as.matrix(dm) ###Converting design to matrix
+dm <- as.matrix(dm)
+preferences <- c(16,23,6,19,24,3,12,22,2,11,21,5,7,14,17,8,13,20,1,10,15,9,4,18)
 
-preferences <- c(16,23,6,19,24,3,12,22,2,11,21,5,7,14,17,8,13,20,1,10,15,9,4,18) ###Inputting preferences
-
-conjoint(preferences,dm) ###Running conjoint function
+conjoint(preferences,dm) 
 
